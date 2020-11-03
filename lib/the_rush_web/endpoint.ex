@@ -24,7 +24,7 @@ defmodule TheRushWeb.Endpoint do
     at: "/",
     from: :the_rush,
     gzip: false,
-    only: ~w(css fonts images js favicon.ico robots.txt vendor)
+    only: ~w(css fonts images js favicon.ico robots.txt)
 
   # Code reloading can be explicitly enabled under the
   # :code_reloader configuration of your endpoint.
