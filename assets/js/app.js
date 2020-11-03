@@ -13,6 +13,14 @@ import "../css/app.scss"
 //     import socket from "./socket"
 //
 import "phoenix_html"
+
+// Import local files
+//
+// Local files can be imported directly using relative paths, for example:
+// import socket from "./socket"
+
+import 'bootstrap'; // Bootstrap support
+
 import {Socket} from "phoenix"
 import NProgress from "nprogress"
 import {LiveSocket} from "phoenix_live_view"
