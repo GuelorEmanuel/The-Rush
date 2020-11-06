@@ -4,15 +4,29 @@ defmodule TheRush.Application do
   @moduledoc false
 
   use Application
-
   def start(_type, _args) do
     children = [
       # Start the Telemetry supervisor
       TheRushWeb.Telemetry,
       # Start the PubSub system
       {Phoenix.PubSub, name: TheRush.PubSub},
+      {
+        Mongo,
+        [
+          name: Application.get_env(:the_rush, :db_config)[:name],
+          url: Application.get_env(:the_rush, :db_config)[:url],
+          pool_size: Application.get_env(:the_rush, :db_config)[:pool_size]
+        ]
+      },
+      {ConCache,
+      [
+        name: :csv,
+        ttl_check_interval: 2_000,
+        global_ttl: 2_000,
+        touch_on_read: true
+      ]},
       # Start the Endpoint (http/https)
-      TheRushWeb.Endpoint
+      TheRushWeb.Endpoint,
       # Start a worker by calling: TheRush.Worker.start_link(arg)
       # {TheRush.Worker, arg}
     ]
