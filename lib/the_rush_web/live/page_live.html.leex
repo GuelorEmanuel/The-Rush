@@ -1,61 +1,71 @@
-<section class="phx-hero">
-  <h1><%= gettext "Welcome to %{name}!", name: "Phoenix" %></h1>
-  <p>Peace of mind from prototype to production</p>
-
-  <form phx-change="suggest" phx-submit="search">
-    <input type="text" name="q" value="<%= @query %>" placeholder="Live dependency search" list="results" autocomplete="off"/>
-    <datalist id="results">
-      <%= for {app, _vsn} <- @results do %>
-        <option value="<%= app %>"><%= app %></option>
-      <% end %>
-    </datalist>
-    <button type="submit" phx-disable-with="Searching...">Go to Hexdocs</button>
-  </form>
-</section>
 <section class="row">
-  <section>
-    <div class="flex flex-wrap">
-      <div class="mr2 mv2">
-        <div class="switch-toggle switch-3 switch-candy">
-          <input id="on" name="state-d" type="radio" checked="checked">
-          <label for="on" onclick="">Yds</label>
-          <input id="na" name="state-d" type="radio">
-          <label for="na" onclick="">Lng</label>
-          <input id="off" name="state-d" type="radio">
-          <label for="off" onclick="">TD</label>
-          <a></a>
+  <div class="container padding">
+    <div class="row">
+      <div class="col">
+        <% sort_states = [:Yds, :Lng, :TD] %>
+        <%= f = form_for @sort_state, "#", [phx_change: :sort] %>
+          <%= for sort_state <- sort_states do %>
+            <%= label do %>
+              <%= radio_button f, sort_state, Atom.to_string(sort_state), checked: sort_state == @sort_state %>
+              <%= label :user, :email, class: "control-label" do %>
+                <div class="padding margin">
+                  <h3><%= Atom.to_string(sort_state) %></h3>
+                </div>
+              <% end %>
+            <% end %>
+          <% end %>
+        </form>
+      </div>
+      <div class="col-xs-6">
+        <div class="form-group">
+          <form phx-change="filter">
+            <input type="text" name="q" value="<%= @query %>" placeholder="Player filter comma separated values" list="results" autocomplete="off"/>
+          </form>
         </div>
       </div>
-   </div>
-   <div class="padding text-dark"><h4>Rushing Stats</h4></div>
+    </div>
+  </div>
+  <section class="row">
+    <div class="container">
+      <div class="row">
+        <div class="col">
+          <h4>NFL Rushing Stats</h4>
+        </div>
+        <div class="col-xs-6">
+          <%= link "Download csv", to: Routes.csv_path(@socket, :export, %{socket_id: @socket.id}) %>
+        </div>
+      </div>
+    </div>
   </section>
   <table class="table table-bordered">
     <thead>
       <tr>
-        <th scope="col">#</th>
-        <th scope="col">First</th>
-        <th scope="col">Last</th>
-        <th scope="col">Handle</th>
+        <%= for cols <- @cols do %>
+          <%= if (cols) do %>
+            <th><%= cols %></th>
+          <% end %>
+        <% end %>
       </tr>
     </thead>
     <tbody>
-      <tr>
-        <th scope="row">1</th>
-        <td>Mark</td>
-        <td>Otto</td>
-        <td>@mdo</td>
-      </tr>
-      <tr>
-        <th scope="row">2</th>
-        <td>Jacob</td>
-        <td>Thornton</td>
-        <td>@fat</td>
-      </tr>
-      <tr>
-        <th scope="row">3</th>
-        <td colspan="2">Larry the Bird</td>
-        <td>@twitter</td>
-      </tr>
+      <%= for row <- @rows_to_show do %>
+        <tr>
+          <%= for col <- @cols do %>
+            <%= if (col) do %>
+              <td><%= Map.get(row,col) %></td>
+            <% end %>
+          <% end %>
+        </tr>
+      <% end %>
     </tbody>
-</table>
+  </table>
+  <div class="container my-3 bg-light">
+      <div class="col-md-12 text-center">
+        <%= if @show_load_more do %>
+          <form phx-submit="load-more">
+            <button phx-disable-with="loading...">more</button>
+          </form>
+        <% end %>
+      </div>
+  </div>
 </section>
