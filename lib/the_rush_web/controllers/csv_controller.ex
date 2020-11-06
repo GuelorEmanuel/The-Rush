@@ -1,9 +1,7 @@
 defmodule TheRushWeb.CsvController do
   use TheRushWeb, :controller
-  require Logger
 
   def export(conn, %{"socket_id" => socket_id}) do
-    Logger.warn("socket_id: #{inspect(socket_id)}")
     case get_rushing_stats(socket_id) do
       {:error, msg} ->
         conn
@@ -15,7 +13,6 @@ defmodule TheRushWeb.CsvController do
           |> Enum.to_list()
           |> to_string()
 
-        Logger.warn("csv: #{inspect(csv)}")
         conn
         |> put_resp_content_type("text/csv")
         |> put_resp_header("content-disposition", "attachment; filename=\"theScore NFL rushing stat nfl_rushing_stat.csv\"")
