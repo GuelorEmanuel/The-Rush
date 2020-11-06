@@ -18,6 +18,7 @@ defmodule TheRushWeb.Router do
     pipe_through :browser
 
     live "/", PageLive, :index
+    get "/csv", CsvController, :export
   end
 
   # Other scopes may use custom stacks.
