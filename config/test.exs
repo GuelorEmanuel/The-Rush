@@ -5,6 +5,8 @@ config :the_rush, :db_config,
   name: :mongo,
   database: "test",
   seeds: ["mongodb:27017"],
+  username: "root",
+  password: "rootpassword"
   pool: DBConnection.Poolboy
 
 # We don't run a server during test. If one is required,
