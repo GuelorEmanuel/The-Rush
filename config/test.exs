@@ -3,7 +3,7 @@ use Mix.Config
 # Configure your database
 config :the_rush, :db_config,
   name: :mongo,
-  database: "theScore",
+  database: "test",
   seeds: ["mongodb:27017"],
   pool: DBConnection.Poolboy
 
