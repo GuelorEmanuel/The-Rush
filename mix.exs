@@ -44,7 +44,10 @@ defmodule TheRush.MixProject do
       {:gettext, "~> 0.11"},
       {:jason, "~> 1.0"},
       {:plug_cowboy, "~> 2.0"},
-      {:distillery, "~> 2.1"}
+      {:distillery, "~> 2.1"},
+      {:mongodb, "~> 0.5.1"},
+      {:csv, "~> 2.4"},
+      {:con_cache, "~> 0.14.0"}
     ]
   end
 
